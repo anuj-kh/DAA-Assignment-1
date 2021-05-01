@@ -1,0 +1,406 @@
+<html>
+    <head>
+        <title>Design and Analysis of Algorithms : Code Testing</title>
+        </head>
+        <body>
+            <div>
+                <h1>CS F364</h1><br>
+                <h1>Design And Analysis Of Algorithms</h1>
+                <h1>Assignment 1</h1>
+                <h2>Group</h2>
+                <ul>
+                    <li>Anuj Kharbanda  -- 2017B4A71508H</li>
+                    <li>Sarwadnya Mutkule  -- 2017B3A70450H</li>
+                    <li>Vinay Agarwal  -- 2017B3A70661H</li>
+                    <li>A Boodhayana S Vishwamitra  -- 2017B4A70761H</li>
+                </ul>
+                <h2>Challenges faced while coding</h2>
+                <ul>
+                    <li>The first main hurdle was reading and understanding the paper and figuring out how to start with the algorithm.</li>
+                    <li>Not using a version control system(like GitHub) created problems like when two persons work on some function and try to add that to the codebase.</li>
+                    <li>Combining the bits of code done by different people in the team was cumbersome.
+                    </li>
+                    <li>We misunderstood the intersection, union, and difference mentioned in the STRIPES algorithm as set functions (compare the ranges and merge them whenever necessary). But for the actual implementation, we just needed to check for the same intervals in union, intersection, and difference.</li>
+                    <li>We figured it out after intense debugging for 3-4 days.
+                    </li>
+                    <li>Debugging this large code for many minor errors took a lot of effort.</li>
+                    <li>Figuring out how to implement vertical edges for the contour problem was a challenging task. </li>
+                    </ul>
+                <h2>Discussion on the algorithm:</h2>
+                <ul>
+                    <li>The two problems - The Measure problem and the Contour problem-required the use of the data structure stripes, which were calculated using the STRIPES algorithm.</li>
+                    <li>The STRIPES algorithm takes the edge array and the x and y intervals as input.
+                    </li>
+                    <li>When the number of edges is 1, it computes:
+                        <ul>
+                            <li>A set of intervals L and R containing the y-projections from either the left or the right edge.</li>
+                            <li>A set of coordinates P containing the y-projections of all the endpoints.
+                            </li>
+                            <li>The stripes S with x interval taken from the input and y interval calculated using set of coordinates P
+                            </li>
+                        </ul>
+                    </li>
+                    <li>When the number of edges greater than is 1:
+                        <ul>
+                            <li>It divides the edges and the interval into 2 parts and recursively calls STRIPES 2 times as a part of the conquer step.
+                            </li>
+                            <li>It computes sets L, R, P in the merge step of the algorithm using the L, R, and P from both the parts.</li>
+                            <li>Then a copy function is called on both the pieces so that the different y-intervals in both the steps are made equal.</li>
+                            <li>The blacken function updates the x_union field of both stripes to indicate that a rectangle entirely covers them.</li>
+                            <li>The concat function merges both the stripes into a single one.</li>
+                        </ul>
+                    </li>
+                    <li>After the STRIPES function is completed, the measure is calculated using the x_union and y_interval fields of the stripe.</li>
+                    <li>Contour_peices is the skeleton algorithm that is taking care of calculation of horizontal contour:
+                        <ul>
+                            <li>It first calculates the intervals of stripes that are present in the tree after that it calculates the required horizontal contour using the intersection , union and difference techniques as specified by the paper</li>
+                            <li>After the calculation of horizontal contour, we are calculating the vertical contour lines. We are first merging the overlapping contour edges if they are of the same type(both bottom/both top). Otherwise we are leaving them as it is and after merging the contour lines we are taking out the end points of the final horizontal contour line and storing them in an array and sorting them and after that we are combining the 2 continuous points to form vertical contour lines</li>
+                            <li>After the calculation of contour lines we are calculating the length of contour</li>
+                        </ul>
+                    </li>
+                    </ul>
+                <h2>Complexity(Asymptotic) analysis:</h2>
+                <ul>
+                    <li>Let T(n) denote the worst case time for the algorithm.</li>
+                    <li>Basic traversals and all take time O(n).</li>
+                    <li>The copy, blacken and concat functions take time O(n2)</li>
+                    <li>And we call STRIPES 2 times recursively.</li>
+                    <li>Therefore, T(n)= 2 T(n/2) + O(n2)</li>
+                    <li>On solving the following recursive relation, we got our time complexity as T(n)= O(n2 log n)</li>
+                </ul>
+                <h2>References:</h2>
+                <ul>Güting, R.H. Optimal divide-and-conquer to compute measure and contour for a set of iso-rectangles. Acta Informatica 21, 271–291 (1984). <a href="https://doi.org/10.1007/BF00264251">https://doi.org/10.1007/BF00264251</a>
+                </ul>
+                </div>
+                <br>
+                <br>
+            <h3>Test Cases</h3>
+            <p>Input 1<br>
+                2<br>
+                -1 -1<br> 
+                4 1<br>
+                2 2<br>
+                6 4<br>
+                <a href="tc1.html">output</a>
+                </p>
+            <p>Input 2<br>
+                2<br>
+                2 2<br>
+                6 4<br>
+                0 2<br>
+                2 3        <br>        
+                <a href="tc2.html">output</a>
+            </p>
+            <p>
+                Input 3<br>
+                3<br>
+                0 0 <br>
+                10 10<br>
+                2 2 <br>
+                12 12<br>
+                4 4 <br>
+                14 14     <br>
+                <a href="tc3.html">output</a>
+            </p>
+            <p>
+                Input 4<br>
+
+6<br>
+-5 0<br>
+-4 3<br>
+-4.5 1<br>
+-1 2<br>
+-1 4<br>
+4 6<br>
+-4 5<br>
+0 6<br>
+1 1<br>
+2 2<br>
+1.5 1.5<br>
+5 3<br>
+
+                <a href="tc4.html">output</a>
+            </p>
+            <p>
+                Input 5<br>
+
+1<br>
+-1 -1<br>
+4 1<br>
+
+                <a href="tc5.html">output</a>
+            </p>
+            <p>
+                Input 6<br>
+
+5<br>
+2 37 <br>
+6 46<br>
+4 30 <br>
+17 35<br>
+2 35 <br>
+33 36 <br>
+7 44 <br>
+30 45 <br>
+17 24 <br>
+18 32<br>
+
+                <a href="tc6.html">output</a>
+            </p>
+            <p>
+                Input 7<br>
+4<br>
+1 0<br>
+2 5<br>
+-2 4 <br>
+3 5 <br>
+-1 1 <br>
+0 2<br>
+-3 1<br>
+3 3<br>
+
+                <a href="tc7.html">output</a>
+            </p>
+            <p>
+                Input  8<br>
+5<br>
+6  2 <br>
+46 37 <br>
+17  4 <br>
+30 35 <br>
+2  33 <br>
+36 35 <br>
+7  30 <br>
+45 44 <br>
+17  18 <br>
+24 32<br>
+
+                <a href="tc8.html">output</a>
+            </p>
+            <p>
+                Input 9<br>
+5<br>
+17  19 <br>
+30 24 <br>
+21  10 <br>
+34 38 <br>
+3  18 <br>
+47 34 <br>
+2  7 <br>
+29 41 <br>
+11  23 <br>
+42 38<br>
+
+                <a href="tc9.html">output</a>
+            </p>
+            <p>
+                Input 10<br>
+
+5<br>
+1 0 <br>
+2 2<br>
+0 2 <br>
+4 3<br>
+3 4 <br>
+4 5<br>
+-1 4 <br>
+3 5<br>
+-3 3 <br>
+-2 5<br>
+
+                <a href="tc10.html">output</a>
+            </p>
+            <p>
+                Input 11<br>
+
+5<br>
+-2 1 <br>
+0 2<br>
+0 0 <br>
+3 2<br>
+3 1 <br>
+4 2<br>
+3 3 <br>
+4 4<br>
+1 2 <br>
+2 3<br>
+
+                <a href="tc11.html">output</a>
+            </p>
+            <p>
+                Input 12<br>
+5<br>
+-2 -2 <br>
+2 3<br>
+0 1 <br>
+4 3<br>
+4 0 <br>
+5 5<br>
+-1 4 <br>
+4 5<br>
+1 0 <br>
+2 4<br>
+
+                <a href="tc12.html">output</a>
+            </p>
+            <p>
+                Input 13<br>
+5<br>
+4 0 <br>
+10 6<br>
+5 4 <br>
+6 9<br>
+0 5 <br>
+7 8<br>
+8 7 <br>
+9 10<br>
+1 2 <br>
+3 3<br>
+
+                <a href="tc13.html">output</a>
+            </p>
+            <p>
+                Input 14<br>
+5<br>
+19 17 <br>
+24 30<br>
+10 21 <br>
+38 34<br>
+18 3 <br>
+34 47<br>
+7 2 <br>
+41 29<br>
+23 11 <br>
+38 42<br>
+
+                <a href="tc14.html">output</a>
+            </p>
+            <p>
+                Input 15<br>
+2<br>
+0 0 <br>
+7 4<br>
+5 100 <br>
+10 105<br>
+
+                <a href="tc15.html">output</a>
+            </p>
+            <p>
+                Input 16<br>
+5<br>
+1 5 <br>
+4 20<br>
+1 10 <br>
+5 30<br>
+-21 5 <br>
+1 15<br>
+0 0 <br>
+2 10<br>
+0 0 <br>
+3 2<br>
+
+                <a href="tc16.html">output</a>
+            </p>
+            <p>
+                Input 17<br>
+4<br>
+1 5 <br>
+4 20<br>
+1 10 <br>
+5 30<br>
+-21 5 <br>
+1 15<br>
+0 0 <br>
+2 10<br>
+
+                <a href="tc17.html">output</a>
+            </p>
+            <p>
+                Input 18<br>
+5<br>
+0 0 <br>
+1 4<br>
+0 4 <br>
+1 8<br>
+1 4 <br>
+3 11<br>
+1 4 <br>
+2 6<br>
+1 0 <br>
+2 4<br>
+
+                <a href="tc18.html">output</a>
+            </p>
+            <p>
+                Input 19<br>
+4<br>
+0 0 <br>
+1 4<br>
+0 4 <br>
+1 8<br>
+1 4 <br>
+3 11<br>
+1 4 <br>
+2 6<br>
+
+                <a href="tc19.html">output</a>
+            </p>
+            <p>
+                Input 20<br>
+3<br>
+0 0 <br>
+5 10<br>
+0 15 <br>
+5 26<br>
+4 4 <br>
+14 20<br>
+
+                <a href="tc20.html">output</a>
+            </p>
+            <p>
+                Input  21<br>
+4<br>
+0 0<br>
+2 2<br>
+0 2<br>
+2 4<br>
+2 0<br>
+4 2<br>
+2 2<br>
+4 4<br>
+
+                <a href="tc21.html">output</a>
+            </p>
+            <p>
+                Input  22<br>
+5<br>
+0 0 <br>
+1 1 <br>
+1 1<br>
+2 2<br>
+2 2 <br>
+3 3<br>
+0 2 <br>
+1 3<br> 
+2 0<br> 
+3 1<br>
+
+                <a href="tc22.html">output</a>
+            </p>
+            <h3>Big Test Cases</h3>
+            <h4>Note:</h4>
+            <p>The Reason that we are not showing the plots for these test cases is that the rectangles are in a wide range of coordinates and thus all the rectangles collapse to lines in visualization and it becomes impossible to understand the visualization.
+            </p>
+            <p>
+                 we have a total of 5 test cases with no of rectangles in the input as follows:<br>
+                <ol>
+                    <li>500</li>
+                    <li>100</li>
+                    <li>200</li>
+                    <li>500</li>
+                    <li>100</li>
+                    </ol>
+                    <a href="big_tc.html">click here</a>to go to the big test cases.<br>
+                </p>
+            </body>
+</html>
